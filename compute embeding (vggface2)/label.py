@@ -7,19 +7,16 @@ import numpy as np
 
 MIN_THRESHOLD = 0.7
 MAX_THRESHOLD = 1.9
-embeding_file_name = 'compute embeding (vggface2)/embeddings.pickle'
-output_filename ='compute embeding (vggface2)/labels.txt'
 
 
 def save_label(argsv):
-    image_name = []
-    for i in range(1, len(argsv)):
-        image_name.append(argsv[i])
+    base_directory = argsv[1]
 
-    with (open(embeding_file_name, "rb")) as openfile:
+    image_name = argsv[2].split(' ')
+
+    with (open(base_directory+'/embeddings.pickle', "rb")) as openfile:
         image_embeding_name = pickle.load(openfile)
 
-    print(image_embeding_name['names'])
     try:
         image_embedings = []
         for name in image_name:
@@ -56,7 +53,7 @@ def save_label(argsv):
         labels.append(label)
         names.append(image_name[i])
 
-    with open(output_filename, 'w') as text_file:
+    with open(base_directory+'/label.txt', 'w') as text_file:
         for i in range(len(names)):
             text_file.write('file_name: {}, label: {}\n'.format(names[i], labels[i]))
 
